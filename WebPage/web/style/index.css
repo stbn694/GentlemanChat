@@ -1,0 +1,126 @@
+body {
+	font-family: "Open Sans", Helvetica, Arial, sans-serif;
+	margin: 0;
+	padding: 0;
+	background-color: #EEEEEE;
+}
+
+.footer {
+	height: 50px;
+	padding-top: 100px;
+	background: -webkit-linear-gradient(bottom, #AAAAAA , #EEEEEE); /* For Safari 5.1 to 6.0 */
+	background: -o-linear-gradient(top, #AAAAAA, #EEEEEE); /* For Opera 11.1 to 12.0 */
+	background: -moz-linear-gradient(top, #AAAAAA, #EEEEEE); /* For Firefox 3.6 to 15 */
+	background: linear-gradient(to top, #AAAAAA , #EEEEEE); /* Standard syntax */
+}
+
+.title-container {
+	width: 100%;
+	background-color: #CCD5DE;
+	padding-top: 10px;
+	padding-top: 30px;
+	padding-bottom: 30px;
+}
+
+.logo-container {
+	padding-right: 30%;
+	padding-left: 30%;
+	
+}
+
+.logo-container figure {
+	margin: 0 auto 0 auto;
+	min-width: 100px;
+	max-width: 200px;
+	width: 100%;
+}
+
+#logo {
+	width: 100%;
+}
+
+#nombre {
+	width: 100%;
+	text-align: center;
+	font-size: 70px;
+	margin: 0;
+	font-family: 'Lobster', cursive;
+	color: #500000;
+}
+
+.content {
+	width: 100%;
+}
+
+@media screen and (min-width: 800px) {
+	.login-container {
+		width: 50%;
+		float: left;
+	}
+
+	.register-container {
+		width: 50%;
+		float: right;
+	}
+}
+
+@media screen and (max-width: 450px) {
+	#nombre {
+		font-size: 50px;
+	}
+}
+
+.content > div {
+	text-align: center;
+}
+
+.content > div > p {
+	font-size: 30px;
+	padding-left: 20%;
+	padding-right: 20%;
+	padding-top: 50px;
+	padding-bottom: 10px;
+	color: #800000;
+	font-weight: bolder;
+}
+
+.content input {
+	min-width: 300px;
+	max-width: 400px;
+	width: 60%;
+	margin: 10px;
+	min-height: 48px;
+	padding: 0 20px 0 20px;
+	border: none;
+	outline: none;
+}
+
+.content input[type="text"]:focus, .content input[type="email"]:focus, .content input[type="password"]:focus {
+	border: 2px solid #D53536;
+}
+
+.submit input {
+	min-width: 100px;
+	width: inherit;
+	border: none;
+	font-family: "Open Sans", Helvetica, Arial, sans-serif;
+	font-size: 15px;
+	font-weight: bolder;
+	background-color: #ED3226;
+	color: #800000;
+}
+
+.submit input:hover {
+	cursor: pointer;
+	background-color: #D53536;
+}
+
+#err-pass {
+	margin-top: -10px;
+	color: #9C0B00;
+	font-size: 14px;
+}
+
+#clearer {
+	clear: both;
+}
