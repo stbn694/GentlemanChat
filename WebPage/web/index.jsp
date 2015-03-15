@@ -52,7 +52,7 @@
                 <% if(request.getAttribute("error") == "-1") { %>
                     <p id="err-email-exist">El usuario ya existe</p>
                 <%}%>
-                <form id="register-form" name="registerForm" action="${pageContext.servletContext.contextPath}/register" method="post" >
+                <form id="register-form" name="registerForm" action="${pageContext.servletContext.contextPath}/register" onsubmit="return allChecks()" method="post" >
                     <div>
                         <input type="text" id="new-name" name="newName" placeholder="nombre">
                     </div>
@@ -69,7 +69,7 @@
                         <p id="err-pass">La contraseña no coincide</p>
                     </div>
                     <div class="submit">
-                        <input type="submit" id="register" name="register" value="Registrarse">
+                        <input type="submit" id="register" name="register" value="Registrarse" disabled>
                     </div>
                 </form>
                 <%} else if (request.getAttribute("error") == "1"){%>
