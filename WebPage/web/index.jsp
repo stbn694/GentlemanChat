@@ -9,17 +9,24 @@
 <!DOCTYPE html>
 <html>
     <head>
+        <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,300,700' rel='stylesheet' type='text/css'>
+        <link href='http://fonts.googleapis.com/css?family=Lobster' rel='stylesheet' type='text/css'>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <link rel="icon" href="./images/favicon.png">
-        <title>Chatina</title>
+        <link rel="icon" href="${pageContext.servletContext.contextPath}/images/favicon.png">
+        <link rel="stylesheet" type="text/css" href="${pageContext.servletContext.contextPath}/style/index.css">
+        <script type="text/javascript" src="${pageContext.servletContext.contextPath}/scripts/formChecks.js"></script>
+        <title>Gentleman Chat</title>
     </head>
     <body>
         <div class="title-container">
             <div class="logo-container">
-                <img src="./images/logo.jpg">
+                <figure>
+                    <img id="logo" src="./images/logo.png">
+                </figure>
             </div>
             <div class="name-container">
-                <p>Chatina</p>
+                <p id="nombre">Gentleman Chat</p>
             </div>
         </div>
         <div class="content">
@@ -27,30 +34,56 @@
                 <p>Inicia sesión</p>
                 <form id="login-form" method="post" action="./login">
                     <div>
-                        <input type="text" id="nick" name="nick" autofocus="autofocus">
+                        <input type="email" id="email" name="email" placeholder="email" autofocus="autofocus">
                     </div>
                     <div>
-                        <input type="password" id="pass" name="pass">
+                        <input type="password" id="pass" name="pass" placeholder="contraseña">
                     </div>
-                    <div>
+                    <div class="submit">
                         <input type="submit" id="login" name="login" value="Entrar">
                     </div>
                 </form>
             </div>
+            
             <div class="register-container">
-                <p>Rexístrate</p>
-                <form id="register-form" method="post" action="./registro">
+                <% if(request.getAttribute("error") == null || request.getAttribute("error") == "-1") { %>
+                
+                <p>Regístrate</p>
+                <% if(request.getAttribute("error") == "-1") { %>
+                    <p id="err-email-exist">El usuario ya existe</p>
+                <%}%>
+                <form id="register-form" name="registerForm" action="${pageContext.servletContext.contextPath}/register" method="post" >
                     <div>
-                        <input type="text" id="new-nick" name="new-nick">
+                        <input type="text" id="new-name" name="newName" placeholder="nombre">
                     </div>
                     <div>
-                        <input type="password" id="new-pass" name="new-pass">
+                        <input type="email" id="new-email" name="newEmail" placeholder="email" oninput="checkMail()">
+                        <p id="err-email">EL formato de e-mail es incorrecto</p>
+                        
                     </div>
                     <div>
-                        <input type="submit" id="register" name="register" value="Rexistrarse">
+                        <input type="password" id="new-pass" name="newPass" placeholder="contraseña">
+                    </div>
+                    <div>
+                        <input type="password" id="new-pass-conf" name="newPassConf" placeholder="confirmación de contraseña" oninput="equalPass()">
+                        <p id="err-pass">La contraseña no coincide</p>
+                    </div>
+                    <div class="submit">
+                        <input type="submit" id="register" name="register" value="Registrarse">
                     </div>
                 </form>
+                <%} else if (request.getAttribute("error") == "1"){%>
+                <p>Datos del Registro:</p>
+                <p class="registerData">Nombre: <span style="color: black"><%= request.getAttribute("name") %></span></p>
+                <p class="registerData">E-Mail: <span style="color: black"><%= request.getAttribute("email") %></span></p>
+                <p class="registerData">Contraseña: <span style="color: black"><%= request.getAttribute("pass") %></span>
+                <%}%>
             </div>
+            <div id="clearer"></div>
+        </div>
+        <div class="footer">
+            <footer>
+            </footer>
         </div>
     </body>
 </html>

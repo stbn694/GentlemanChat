@@ -119,8 +119,30 @@ body {
 	margin-top: -10px;
 	color: #9C0B00;
 	font-size: 14px;
+        display: none;
+}
+
+#err-email {
+	margin-top: -10px;
+	color: #9C0B00;
+	font-size: 14px;
+        display: none;
+}
+
+#err-email-exist {
+	margin-top: -10px;
+	color: #9C0B00;
+	font-size: 14px;
 }
 
 #clearer {
 	clear: both;
+}
+
+.content > div > .registerData {
+    font-size: 18px;
+    text-align: left;
+    padding-top: 0px;
+    padding-bottom: 0px;
+    color: #800000;
 }
