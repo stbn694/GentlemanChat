@@ -54,7 +54,7 @@ public class register extends HttpServlet {
             while(resultset.next()){
                 if(resultset.getString("id").equals(email)){
                     request.setAttribute("error", -1);
-                    request.getRequestDispatcher("/WebPage").forward(request, response);
+                    request.getRequestDispatcher("/index.jsp").forward(request, response);
                 }
             }
             

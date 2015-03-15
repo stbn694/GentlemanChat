@@ -69,7 +69,7 @@
                         <p id="err-pass">La contraseña no coincide</p>
                     </div>
                     <div class="submit">
-                        <input type="submit" id="register" name="register" value="Registrarse" disabled>
+                        <input type="submit" id="register" name="register" value="Registrarse">
                     </div>
                 </form>
                 <%} else if (request.getAttribute("error") == "1"){%>
