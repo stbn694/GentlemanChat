@@ -23,55 +23,45 @@ import javax.servlet.http.HttpSession;
  *
  * @author xurxo
  */
-public class login extends HttpServlet {
+public class changePass extends HttpServlet {
     
     @Override
     public void init() throws ServletException{
         try {
-            try {
-                Class.forName("com.mysql.jdbc.Driver").newInstance();
-            } catch (InstantiationException ex) {
-                Logger.getLogger(login.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (IllegalAccessException ex) {
-                Logger.getLogger(login.class.getName()).log(Level.SEVERE, null, ex);
-            }
+            Class.forName("com.mysql.jdbc.Driver").newInstance();
         } catch (ClassNotFoundException ex) {
-            Logger.getLogger(login.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(changePass.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (InstantiationException ex) {
+            Logger.getLogger(changePass.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IllegalAccessException ex) {
+            Logger.getLogger(changePass.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
     
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         
-            String email = request.getParameter("email");
+            String oldPass = request.getParameter("oldPass");
+            String newPass = request.getParameter("newPass");
+            
             HttpSession session = request.getSession(true);
             
         try {    
             Connection conexion = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/daw", "gentlemanchat", "gentlemanchat");
             Statement statement = (Statement) conexion.createStatement();
-            ResultSet resultset;
             String query;
             
-            query = "SELECT id FROM usuarios WHERE id='"+email+"'";
-            resultset = statement.executeQuery(query);
-            
-            while(resultset.next()){
-                if(resultset.getString("id").equals(email)){
-                    session.setAttribute("session", email);
-                    request.getRequestDispatcher("/session.jsp").forward(request, response);
-                }
-            }
-            
-            session.invalidate();
-            request.getRequestDispatcher("/index.jsp").forward(request, response);
+            query = "UPDATE usuarios SET contrasinal='"+newPass+"' WHERE id='"+session.getAttribute("session")+"'";
+            statement.executeUpdate(query);
             
         } catch (SQLException ex) {
-            Logger.getLogger(login.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(changePass.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+    
     @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         doGet(request, response);
     }
+
 }
