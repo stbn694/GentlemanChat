@@ -6,6 +6,10 @@
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 
+<%
+    session.invalidate();
+%>
+
 <!DOCTYPE html>
 <html>
     <head>
@@ -32,7 +36,7 @@
         <div class="content">
             <div class="login-container">
                 <p>Inicia sesión</p>
-                <form id="login-form" method="post" action="./login">
+                <form id="login-form" method="post" action="${pageContext.servletContext.contextPath}/login">
                     <div>
                         <input type="email" id="email" name="email" placeholder="email" autofocus="autofocus">
                     </div>
@@ -47,7 +51,6 @@
             
             <div class="register-container">
                 <% if(request.getAttribute("error") == null || request.getAttribute("error") == "-1") { %>
-                
                 <p>Regístrate</p>
                 <% if(request.getAttribute("error") == "-1") { %>
                     <p id="err-email-exist">El usuario ya existe</p>
@@ -73,10 +76,10 @@
                     </div>
                 </form>
                 <%} else if (request.getAttribute("error") == "1"){%>
-                <p>Datos del Registro:</p>
-                <p class="registerData">Nombre: <span style="color: black"><%= request.getAttribute("name") %></span></p>
-                <p class="registerData">E-Mail: <span style="color: black"><%= request.getAttribute("email") %></span></p>
-                <p class="registerData">Contraseña: <span style="color: black"><%= request.getAttribute("pass") %></span>
+                    <p>Datos del Registro:</p>
+                    <p class="registerData">Nombre: <span style="color: black"><%= request.getAttribute("name") %></span></p>
+                    <p class="registerData">E-Mail: <span style="color: black"><%= request.getAttribute("email") %></span></p>
+                    <p class="registerData">Contraseña: <span style="color: black"><%= request.getAttribute("pass") %></span>
                 <%}%>
             </div>
             <div id="clearer"></div>

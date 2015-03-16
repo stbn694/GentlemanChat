@@ -6,6 +6,7 @@
 
 import com.mysql.jdbc.Statement;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -16,9 +17,13 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
-
-public class register extends HttpServlet {
+/**
+ *
+ * @author xurxo
+ */
+public class login extends HttpServlet {
     
     @Override
     public void init() throws ServletException{
@@ -37,11 +42,10 @@ public class register extends HttpServlet {
     
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String name = request.getParameter("newName");
-        String email = request.getParameter("newEmail");
-        String pass = request.getParameter("newPass");
-        
         try {
+            String email = request.getParameter("email");
+            HttpSession session = request.getSession(true);
+            
             Connection conexion = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/daw", "gentlemanchat", "gentlemanchat");
             Statement statement = (Statement) conexion.createStatement();
             ResultSet resultset;
@@ -52,28 +56,21 @@ public class register extends HttpServlet {
             
             while(resultset.next()){
                 if(resultset.getString("id").equals(email)){
-                    request.setAttribute("error", "-1");
-                    request.getRequestDispatcher("/index.jsp").forward(request, response);
+                    session.setAttribute("session", email);
+                    request.getRequestDispatcher("/session.jsp").forward(request, response);
                 }
             }
             
-            query = "INSERT INTO usuario VALUES ('"+email+"','"+name+"','"+pass+"')";
-            statement.execute(query);
-            
-            request.setAttribute("email", email);
-            request.setAttribute("name", name);
-            request.setAttribute("pass", pass);
-            
-            request.setAttribute("error", "1");
+            session.invalidate();
             request.getRequestDispatcher("/index.jsp").forward(request, response);
             
         } catch (SQLException ex) {
-            Logger.getLogger(register.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(login.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
     @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
         doGet(request, response);
     }
 }
