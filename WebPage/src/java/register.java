@@ -41,7 +41,7 @@ public class register extends HttpServlet {
         String email = request.getParameter("newEmail");
         String pass = request.getParameter("newPass");
         
-        /*try {
+        try {
             Connection conexion = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/daw", "gentlemanchat", "gentlemanchat");
             Statement statement = (Statement) conexion.createStatement();
             ResultSet resultset;
@@ -59,7 +59,7 @@ public class register extends HttpServlet {
             }
             
             query = "INSERT INTO usuario VALUES ('"+email+"','"+name+"','"+pass+"')";
-            statement.execute(query);*/
+            statement.execute(query);
             
             request.setAttribute("email", email);
             request.setAttribute("name", name);
@@ -68,9 +68,9 @@ public class register extends HttpServlet {
             request.setAttribute("error", "1");
             request.getRequestDispatcher("/index.jsp").forward(request, response);
             
-        /*} catch (SQLException ex) {
+        } catch (SQLException ex) {
             Logger.getLogger(register.class.getName()).log(Level.SEVERE, null, ex);
-        }*/
+        }
     }
     
     @Override
