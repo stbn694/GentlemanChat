@@ -28,4 +28,13 @@ public class ClientImpl extends UnicastRemoteObject implements ClientInterface{
         }
         chat.getjTextArea1().append(this.name+": "+text+"\n");
     }
+    
+    public HashMap getFriends() throws RemoteException{
+        return friends;
+    }
+    
+    public boolean SendPeticion(String idPeticion) throws RemoteException{
+        //Aqui o servidor lanzaria o panel no cliente preguntando se acepta a peticion
+        return false;
+    }
 }
