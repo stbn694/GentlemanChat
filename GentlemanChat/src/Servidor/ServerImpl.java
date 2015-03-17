@@ -41,6 +41,7 @@ public class ServerImpl extends UnicastRemoteObject implements ServerInterface {
             for(String idAmigo : this.connectUsers.keySet()){
                 if(this.database.comprobarAmigo(id,idAmigo)){
                     friends.put(idAmigo, this.connectUsers.get(idAmigo));
+                    this.connectUsers.get(idAmigo).getFriends().put(id, cliente);
                 }
             }
             return friends;
