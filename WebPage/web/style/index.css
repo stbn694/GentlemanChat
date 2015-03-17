@@ -62,6 +62,16 @@ body {
 		width: 50%;
 		float: right;
 	}
+
+	.passchg-container {
+		width: 50%;
+		float: left;
+	}
+
+	.delete-container {
+		width: 50%;
+		float: right;
+	}
 }
 
 @media screen and (max-width: 450px) {
@@ -145,4 +155,30 @@ body {
     padding-top: 0px;
     padding-bottom: 0px;
     color: #800000;
+}
+
+.delete-container {
+	padding-top: 70px;
+}
+
+#identification {
+	position: fixed;
+	bottom: 10px;
+	right: 10px;
+	padding: 10px;
+	background-color: #555555;
+}
+
+#id1 {
+	font-size: 11px;
+	text-align: right;
+	color: #EDA319;
+	margin: 0;
+}
+
+#id2 {
+	font-size: 14px;
+	text-align: right;
+	color: #FFFFFF;
+	margin: 0;
 }
