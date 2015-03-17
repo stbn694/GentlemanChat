@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 
 import com.mysql.jdbc.Statement;
 import java.io.IOException;
@@ -42,12 +37,12 @@ public class register extends HttpServlet {
         String pass = request.getParameter("newPass");
         
         try {
-            Connection conexion = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/daw", "gentlemanchat", "gentlemanchat");
+            Connection conexion = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/gentlemanchat", "gentlemanchat", "gentlemanchat");
             Statement statement = (Statement) conexion.createStatement();
             ResultSet resultset;
             String query;
             
-            query = "SELECT id FROM usuarios WHERE id='"+email+"'";
+            query = "SELECT id FROM Usuarios WHERE id='"+email+"'";
             resultset = statement.executeQuery(query);
             
             while(resultset.next()){
@@ -57,7 +52,7 @@ public class register extends HttpServlet {
                 }
             }
             
-            query = "INSERT INTO usuario VALUES ('"+email+"','"+name+"','"+pass+"')";
+            query = "INSERT INTO Usuarios VALUES ('"+email+"','"+name+"','"+pass+"')";
             statement.execute(query);
             
             request.setAttribute("email", email);
