@@ -12,11 +12,9 @@ public class Cliente {
     
     public static void main(String[] args) {
         
-        JFrameApp frame = new JFrameApp();
+        Chat frame = new Chat();
         frame.setLocationRelativeTo(null);
         frame.setResizable(false);
-        JPanel_app panel = new JPanel_app();
-        frame.setContentPane(panel);
         frame.setVisible(true);
         
     }
