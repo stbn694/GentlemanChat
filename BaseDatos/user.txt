@@ -1,0 +1,5 @@
+
+create user 'gentlemanchat'@'localhost' identified by 'gentlemanchat';
+set password for 'gentlemanchat'@'localhost' = password('gentlemanchat');
+create database gentlemanchat;
+grant all privileges on gentlemanchat.* to 'gentlemanchat'@'localhost' with grant option;
