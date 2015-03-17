@@ -1,3 +1,5 @@
+package Cliente;
+
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -12,7 +14,7 @@ public class Cliente {
     
     public static void main(String[] args) {
         
-        Chat frame = new Chat();
+        Aplication frame = new Aplication();
         frame.setLocationRelativeTo(null);
         frame.setResizable(false);
         frame.setVisible(true);
