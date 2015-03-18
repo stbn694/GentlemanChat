@@ -65,29 +65,27 @@ public class BDAccess {
         return false;
     }
     
-    public boolean comprobarAmigo(String id, String idAmigo){
+    public ArrayList listaAmigos(String id){
         try {
             ResultSet resultset = null;
             PreparedStatement statement = null;
             String query;
+            ArrayList<String> amigos = new ArrayList<String>();
             
-            query = "SELECT idUsuario,idAmigo FROM Amigos where idUsuario=? and idAmigo=?";
+            query = "SELECT idAmigo FROM Amigos where idUsuario=?";
             statement = this.connection.prepareStatement(query);
             statement.setString(1, id);
-            statement.setString(2, idAmigo);
             resultset = statement.executeQuery();
             
             while(resultset.next()){
-                if(id.equals(resultset.getString("idUsuario")) && id.equals(resultset.getString("idAmigo"))){
-                    return true;
-                }
+                amigos.add(resultset.getString("idAmigo"));
             }
             
-            return false;
+            return amigos;
         } catch (SQLException ex) {
             Logger.getLogger(BDAccess.class.getName()).log(Level.SEVERE, null, ex);
         }
-        return false;
+        return null;
     }
     
     public ArrayList peticionesAmistad(String id){
@@ -140,27 +138,6 @@ public class BDAccess {
         }
     }
     
-    public void eliminarAmigo(String id, String idAmigo){
-        try {
-            PreparedStatement statement = null;
-            String query;
-            
-            query = "DELETE FROM Amigos WHERE idUsuario=? and idAmigo=?";
-            statement = this.connection.prepareStatement(query);
-            statement.setString(1, id);
-            statement.setString(2, idAmigo);
-            statement.execute();
-            
-            statement = this.connection.prepareStatement(query);
-            statement.setString(1, idAmigo);
-            statement.setString(2, id);
-            statement.execute();
-            
-        } catch (SQLException ex) {
-            Logger.getLogger(BDAccess.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }
-    
     public void añadirPeticion(String id, String idPeticion){
         try {
             PreparedStatement statement = null;
@@ -191,5 +168,34 @@ public class BDAccess {
         } catch (SQLException ex) {
             Logger.getLogger(BDAccess.class.getName()).log(Level.SEVERE, null, ex);
         }
+    }
+    
+    public ArrayList buscarContactos(String contacto){
+        try {
+            ResultSet resultset = null;
+            PreparedStatement statement = null;
+            String query;
+            ArrayList<String> contactos = new ArrayList<String>();
+            
+            query = "SELECT id FROM Usuarios WHERE id LIKE '%?%' ";
+            statement = this.connection.prepareStatement(query);
+            statement.setString(1, contacto);
+            resultset = statement.executeQuery();
+            
+            while(resultset.next()){
+                contactos.add(resultset.getString("id"));
+            }
+            
+            if(!contactos.isEmpty()){
+                return contactos;
+            }
+            else{
+                return null;
+            }
+            
+        } catch (SQLException ex) {
+            Logger.getLogger(BDAccess.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
     }
 }

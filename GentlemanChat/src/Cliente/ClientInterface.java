@@ -2,6 +2,7 @@ package Cliente;
 
 import java.rmi.Remote;
 import java.rmi.RemoteException;
+import java.util.ArrayList;
 import java.util.HashMap;
 
 public interface ClientInterface extends Remote { 
@@ -10,4 +11,5 @@ public interface ClientInterface extends Remote {
     public boolean SendPeticion(String idPeticion) throws RemoteException;
     public void añadirAmigoConectado(ClientInterface c) throws RemoteException;
     public void eliminarAmigoConectado(ClientInterface c) throws RemoteException;
+    public ArrayList buscarContactos(String contacto) throws RemoteException;
 }

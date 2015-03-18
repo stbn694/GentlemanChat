@@ -37,14 +37,17 @@ public class ServerImpl extends UnicastRemoteObject implements ServerInterface {
             }
             
             HashMap <String,ClientInterface> friends = new HashMap <String,ClientInterface>();
+            ArrayList<String> amigos = this.database.listaAmigos(c.getId());
             
-            
-            for(String idAmigo : this.connectUsers.keySet()){
-                if(this.database.comprobarAmigo(c.getId(),idAmigo)){
-                    friends.put(idAmigo, this.connectUsers.get(idAmigo));
-                    this.connectUsers.get(idAmigo).añadirAmigoConectado(c);
+            if(amigos.size() > 0){
+                for(String idAmigo : amigos){
+                    if(this.connectUsers.containsKey(idAmigo)){
+                        friends.put(idAmigo, this.connectUsers.get(idAmigo));
+                        this.connectUsers.get(idAmigo).añadirAmigoConectado(c);
+                    }
                 }
             }
+            
             return friends;
         }
         return null;
@@ -58,7 +61,7 @@ public class ServerImpl extends UnicastRemoteObject implements ServerInterface {
         }
     }
     
-    public void peticionAmistad(ClientInterface c,String idPeticion) throws RemoteException{
+    public void peticionAmistad(ClientInterface c, String idPeticion) throws RemoteException{
         if(this.connectUsers.containsKey(idPeticion)){
             if(c.SendPeticion(idPeticion)){
                 this.database.añadirAmigo(c.getId(), idPeticion);
@@ -72,17 +75,9 @@ public class ServerImpl extends UnicastRemoteObject implements ServerInterface {
         }
     }
     
-    public void eliminarAmigo(String id,String idAmigo) throws RemoteException{
-        /*
-        Deime de conta que o profesor dixonos que so tiña que mostrar a interfaz os amigos conectados a aplicación.
-        Como borrarias os que non estan conectados? Consideramos que esperas a que os vexas conectados?
-        */
-        if(this.connectUsers.containsKey(idAmigo)){
-            this.database.eliminarAmigo(id, idAmigo);
-            
-        }
-        else{
-            this.database.eliminarAmigo(id, idAmigo);
-        }
+    public ArrayList buscarContactos(String contacto){
+        ArrayList<String> contactos = this.database.buscarContactos(contacto);
+        
+        return contactos;
     }
 }
