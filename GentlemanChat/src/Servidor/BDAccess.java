@@ -95,13 +95,13 @@ public class BDAccess {
             String query;
             ArrayList<String> peticiones = new ArrayList<String>();
             
-            query = "SELECT idPeticion FROM Amigos where idPeticion=?";
+            query = "SELECT idUsuario FROM Peticions where idPeticion=?";
             statement = this.connection.prepareStatement(query);
             statement.setString(1, id);
             resultset = statement.executeQuery();
             
             while(resultset.next()){
-                peticiones.add(resultset.getString("idPeticion"));
+                peticiones.add(resultset.getString("idUsuario"));
             }
             
             if(!peticiones.isEmpty()){

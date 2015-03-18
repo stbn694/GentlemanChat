@@ -10,20 +10,21 @@ public class ClientImpl extends UnicastRemoteObject implements ClientInterface, 
     private String password;
     private HashMap<String,ClientToClient> friends;
     private HashMap<String,Chat> chats;
+    private Aplication aplication;
     
-    
-    public ClientImpl(String id, String name) throws RemoteException{
+    public ClientImpl(String id, String password) throws RemoteException{
         this.id = id;
-        this.name = name;
+        this.password = password;
         this.friends = null;
+        this.chats = new HashMap<String,Chat>();
     }
 
     public String getId() {
-        return id;
+        return this.id;
     }
 
     public String getPassword() {
-        return password;
+        return this.password;
     }
 
     public void setFriends(HashMap<String, ClientToClient> friends) {
@@ -37,9 +38,13 @@ public class ClientImpl extends UnicastRemoteObject implements ClientInterface, 
     public HashMap<String, Chat> getChats() {
         return chats;
     }
+
+    public void setAplication(Aplication aplication) {
+        this.aplication = aplication;
+    }
     
     
-    
+
     public void SendMessage(ClientToClient friend, String text) throws RemoteException{
         if (!this.chats.containsKey(friend.getId())) {
             Chat chat = new Chat(friend, this);
@@ -57,14 +62,17 @@ public class ClientImpl extends UnicastRemoteObject implements ClientInterface, 
     }
     
     public void añadirAmigoConectado(ClientInterface c) throws RemoteException{
-        if(friends.containsKey(c.getId())){
-            friends.put(c.getId(), (ClientToClient)c);
+        if(!this.friends.containsKey(c.getId())){
+            this.friends.put(c.getId(), (ClientToClient) c);
+            this.aplication.getFriendList().addElement(c.getId());
         }
+        
     }
     
     public void eliminarAmigoConectado(ClientInterface c) throws RemoteException{
-        if(friends.containsKey(c.getId())){
-            friends.remove(c.getId());
+        if(this.friends.containsKey(c.getId())){
+            this.friends.remove(c.getId());
+            this.aplication.getFriendList().removeElement(c.getId());
         }
  
     }

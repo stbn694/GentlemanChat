@@ -5,13 +5,14 @@
  */
 package Cliente;
 
+import java.rmi.Remote;
 import java.rmi.RemoteException;
 
 /**
  *
  * @author xurxo
  */
-public interface ClientToClient {
+public interface ClientToClient extends Remote{
     public void SendMessage(ClientToClient friend, String text) throws RemoteException;
     public String getId() throws RemoteException;
 }

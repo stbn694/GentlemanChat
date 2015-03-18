@@ -26,6 +26,8 @@ public class ServerImpl extends UnicastRemoteObject implements ServerInterface {
     
     public HashMap login(ClientInterface c) throws RemoteException{
         if(this.database.comprobarUsuario(c.getId(),c.getPassword())){
+            this.connectUsers.put(c.getId(), c);
+            
             ArrayList<String> peticiones = this.database.peticionesAmistad(c.getId());
             
             if(peticiones != null){
@@ -35,6 +37,7 @@ public class ServerImpl extends UnicastRemoteObject implements ServerInterface {
                     }
                 }
             }
+            
             
             HashMap <String,ClientInterface> friends = new HashMap <String,ClientInterface>();
             ArrayList<String> amigos = this.database.listaAmigos(c.getId());
@@ -53,10 +56,10 @@ public class ServerImpl extends UnicastRemoteObject implements ServerInterface {
         return null;
     }
     
-    public void logout(ClientInterface c) throws RemoteException{
+    public void logout(ClientInterface c, ArrayList<String> friends) throws RemoteException{
         this.connectUsers.remove(c.getId());
         
-        for(String usuario : this.connectUsers.keySet()){
+        for(String usuario : friends){
             this.connectUsers.get(usuario).eliminarAmigoConectado(c);
         }
     }

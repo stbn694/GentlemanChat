@@ -1,5 +1,6 @@
 package Cliente;
 
+import java.awt.event.KeyEvent;
 import java.rmi.RemoteException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -11,13 +12,12 @@ import javax.swing.JTextField;
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 /**
  *
  * @author Esteban Gerpe
  */
 public class Chat extends javax.swing.JFrame {
-    
+
     private ClientToClient friend;
     private ClientImpl self;
 
@@ -45,9 +45,6 @@ public class Chat extends javax.swing.JFrame {
     public void setjTextField1(JTextField jTextField1) {
         this.jTextField1 = jTextField1;
     }
-    
-    
-    
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -112,13 +109,15 @@ public class Chat extends javax.swing.JFrame {
     }//GEN-LAST:event_formWindowClosing
 
     private void jTextField1KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField1KeyReleased
-        try {
-            this.friend.SendMessage((ClientToClient)this.self, this.jTextField1.getText());
-        } catch (RemoteException ex) {
-            Logger.getLogger(Chat.class.getName()).log(Level.SEVERE, null, ex);
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            try {
+                this.friend.SendMessage((ClientToClient) this.self, this.jTextField1.getText());
+            } catch (RemoteException ex) {
+                Logger.getLogger(Chat.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            this.jTextArea1.append("Yo:  " + this.jTextField1.getText() + "\n");
+            this.jTextField1.setText("");
         }
-        this.jTextArea1.append("Yo:  " + this.jTextField1.getText() + "\n");
-        this.jTextField1.setText("");
     }//GEN-LAST:event_jTextField1KeyReleased
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

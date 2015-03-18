@@ -14,13 +14,12 @@ import java.util.logging.Logger;
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 /**
  *
  * @author Esteban Gerpe
  */
 public class Login extends javax.swing.JFrame {
-    
+
     private ServerInterface server;
     private ClientImpl client;
     private final String hostname;
@@ -58,6 +57,11 @@ public class Login extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         jPasswordField1.setToolTipText("");
+        jPasswordField1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jPasswordField1ActionPerformed(evt);
+            }
+        });
 
         jTextField1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -127,7 +131,7 @@ public class Login extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
-        
+
     }//GEN-LAST:event_jTextField1ActionPerformed
 
     private void jTextField1KeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField1KeyTyped
@@ -135,30 +139,40 @@ public class Login extends javax.swing.JFrame {
     }//GEN-LAST:event_jTextField1KeyTyped
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        this.url = "rmi://" + this.hostname + ":" + this.port + "/callback";
-        
         try {
-            this.server = (ServerInterface)Naming.lookup(url);
-        } catch (NotBoundException ex) {
-            Logger.getLogger(Login.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (MalformedURLException ex) {
-            Logger.getLogger(Login.class.getName()).log(Level.SEVERE, null, ex);
+            this.url = "rmi://" + this.hostname + ":" + this.port + "/callback";
+            try {
+                this.server = (ServerInterface) Naming.lookup(url);
+            } catch (NotBoundException ex) {
+                Logger.getLogger(Login.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (MalformedURLException ex) {
+                Logger.getLogger(Login.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (RemoteException ex) {
+                Logger.getLogger(Login.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            
+            this.client = new ClientImpl(this.jTextField1.getText(), new String(this.jPasswordField1.getPassword()));
+            
+            HashMap<String, ClientToClient> friends = (HashMap<String, ClientToClient>) this.server.login(this.client);
+            
+            if (friends != null) {
+                this.client.setFriends((HashMap<String, ClientToClient>) this.server.login(this.client));
+
+                Aplication aplication = new Aplication(this.client, this.server);
+                aplication.setLocationRelativeTo(null);
+                aplication.setResizable(false);
+                aplication.setVisible(true);
+                this.setEnabled(false);
+                this.dispose();
+            }
         } catch (RemoteException ex) {
             Logger.getLogger(Login.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
-        try {
-            this.client = new ClientImpl(this.jTextField1.getText().toString(), this.jPasswordField1.getPassword().toString());
-            this.client.setFriends((HashMap<String, ClientToClient>)this.server.login(this.client));
-        } catch (RemoteException ex) {
-            Logger.getLogger(Login.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        Aplication aplication = new Aplication(this.client);
-        aplication.setLocationRelativeTo(null);
-        aplication.setResizable(false);
-        aplication.setVisible(true);
-        this.setEnabled(false);
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jPasswordField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jPasswordField1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jPasswordField1ActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;

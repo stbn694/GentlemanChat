@@ -1,8 +1,14 @@
 package Cliente;
 
 
+import Servidor.ServerInterface;
+import java.rmi.RemoteException;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.DefaultListModel;
+import javax.swing.JList;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -18,18 +24,28 @@ public class Aplication extends javax.swing.JFrame {
 
     private DefaultListModel friendList;
     private ClientImpl client;
+    private ServerInterface server;
     
-    public Aplication(ClientImpl client) {
+    public Aplication(ClientImpl client, ServerInterface server) {
         initComponents();
         friendList=new DefaultListModel();
         jList1.setModel(friendList);
+        
+        this.server = server;
         this.client = client;
+        this.client.setAplication(this);
         
         for (String friend : client.getFriends().keySet()) {
             this.friendList.addElement(friend);
         }
     }
 
+    public DefaultListModel getFriendList() {
+        return friendList;
+    }
+
+    
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -64,6 +80,11 @@ public class Aplication extends javax.swing.JFrame {
 
         jMenuItem1.setText("Cerrar");
         jMenuItem1.setToolTipText("");
+        jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem1ActionPerformed(evt);
+            }
+        });
         jMenu1.add(jMenuItem1);
 
         jMenuBar1.add(jMenu1);
@@ -106,6 +127,7 @@ public class Aplication extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         String selectedFriend = this.jList1.getSelectedValue().toString();
+        System.out.println(this.client.getChats());
         if (!this.client.getChats().containsKey(selectedFriend)) {
             Chat chat = new Chat(this.client.getFriends().get(selectedFriend), this.client);
             this.client.getChats().put(selectedFriend, chat);
@@ -114,6 +136,19 @@ public class Aplication extends javax.swing.JFrame {
             chat.setVisible(true);
         }
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
+        try {
+            ArrayList<String> friendsId = new ArrayList<String>();
+            for(String usuario : this.client.getFriends().keySet()){
+                friendsId.add(usuario);
+            }
+            
+            this.server.logout(this.client, friendsId);
+        } catch (RemoteException ex) {
+            Logger.getLogger(Aplication.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_jMenuItem1ActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;

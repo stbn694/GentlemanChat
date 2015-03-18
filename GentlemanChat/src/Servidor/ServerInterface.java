@@ -5,6 +5,7 @@
  */
 package Servidor;
 
+import Cliente.Chat;
 import Cliente.ClientInterface;
 import java.rmi.Remote;
 import java.rmi.RemoteException;
@@ -18,7 +19,7 @@ import java.util.HashMap;
 public interface ServerInterface extends Remote {
     
     public HashMap login(ClientInterface c) throws RemoteException;
-    public void logout(ClientInterface c) throws RemoteException;
+    public void logout(ClientInterface c, ArrayList<String> friends) throws RemoteException;
     public void peticionAmistad(ClientInterface c,String idPeticion) throws RemoteException;
     public ArrayList buscarContactos(String contacto) throws RemoteException;
 }
