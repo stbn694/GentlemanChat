@@ -4,9 +4,10 @@ import java.rmi.Remote;
 import java.rmi.RemoteException;
 import java.util.HashMap;
 
-public interface ClientInterface extends Remote {
-    
-    public HashMap getFriends() throws RemoteException;
-    public void SendMessage(String text) throws RemoteException;
+public interface ClientInterface extends Remote { 
+    public String getId() throws RemoteException;
+    public String getPassword() throws RemoteException;
     public boolean SendPeticion(String idPeticion) throws RemoteException;
+    public void añadirAmigoConectado(ClientInterface c) throws RemoteException;
+    public void eliminarAmigoConectado(ClientInterface c) throws RemoteException;
 }

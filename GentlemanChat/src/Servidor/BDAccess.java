@@ -97,7 +97,7 @@ public class BDAccess {
             String query;
             ArrayList<String> peticiones = new ArrayList<String>();
             
-            query = "SELECT idPeticion FROM Amigos where idUsuario=?";
+            query = "SELECT idPeticion FROM Amigos where idPeticion=?";
             statement = this.connection.prepareStatement(query);
             statement.setString(1, id);
             resultset = statement.executeQuery();
@@ -168,8 +168,24 @@ public class BDAccess {
             
             query = "INSERT INTO Peticions VALUES (?,?)";
             statement = this.connection.prepareStatement(query);
-            statement.setString(1, idPeticion);
-            statement.setString(2, id);
+            statement.setString(1, id);
+            statement.setString(2, idPeticion);
+            statement.execute();
+            
+        } catch (SQLException ex) {
+            Logger.getLogger(BDAccess.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    public void eliminarPeticion(String id, String idPeticion){
+        try {
+            PreparedStatement statement = null;
+            String query;
+            
+            query = "DELETE FROM Peticions WHERE idUsuario=? and idPeticion=?";
+            statement = this.connection.prepareStatement(query);
+            statement.setString(1, id);
+            statement.setString(2, idPeticion);
             statement.execute();
             
         } catch (SQLException ex) {

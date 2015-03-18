@@ -16,8 +16,7 @@ import java.util.HashMap;
  */
 public interface ServerInterface extends Remote {
     
-    public HashMap login(String id, String password,ClientInterface cliente) throws RemoteException;
-    public void logout(String id) throws RemoteException;
-    public void peticionAmistad(String id,String idPeticion) throws RemoteException;
-    public void eliminarAmigo(String id,String idAmigo) throws RemoteException;
+    public HashMap login(ClientInterface c) throws RemoteException;
+    public void logout(ClientInterface c) throws RemoteException;
+    public void peticionAmistad(ClientInterface c,String idPeticion) throws RemoteException;
 }
