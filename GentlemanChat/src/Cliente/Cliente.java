@@ -14,7 +14,7 @@ public class Cliente {
     
     public static void main(String[] args) {
         
-        Aplication frame = new Aplication();
+        Login frame = new Login();
         frame.setLocationRelativeTo(null);
         frame.setResizable(false);
         frame.setVisible(true);
