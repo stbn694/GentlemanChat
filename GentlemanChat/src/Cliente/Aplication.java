@@ -17,15 +17,15 @@ import javax.swing.DefaultListModel;
 public class Aplication extends javax.swing.JFrame {
 
     private DefaultListModel friendList;
-    HashMap<String,ClientInterface> friends;
+    private ClientImpl client;
     
-    public Aplication(HashMap<String,ClientInterface> friends) {
+    public Aplication(ClientImpl client) {
         initComponents();
-        this.friends = friends;
         friendList=new DefaultListModel();
         jList1.setModel(friendList);
+        this.client = client;
         
-        for (String friend : this.friends.keySet()) {
+        for (String friend : client.getFriends().keySet()) {
             this.friendList.addElement(friend);
         }
     }
@@ -105,7 +105,14 @@ public class Aplication extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-
+        String selectedFriend = this.jList1.getSelectedValue().toString();
+        if (!this.client.getChats().containsKey(selectedFriend)) {
+            Chat chat = new Chat(this.client.getFriends().get(selectedFriend), this.client);
+            this.client.getChats().put(selectedFriend, chat);
+            chat.setLocationRelativeTo(null);
+            chat.setResizable(false);
+            chat.setVisible(true);
+        }
     }//GEN-LAST:event_jButton1ActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

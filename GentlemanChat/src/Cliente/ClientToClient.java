@@ -12,5 +12,6 @@ import java.rmi.RemoteException;
  * @author xurxo
  */
 public interface ClientToClient {
-    public void SendMessage(String id, String text) throws RemoteException;
+    public void SendMessage(ClientToClient friend, String text) throws RemoteException;
+    public String getId() throws RemoteException;
 }

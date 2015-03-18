@@ -1,5 +1,8 @@
 package Cliente;
 
+import java.rmi.RemoteException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
@@ -14,12 +17,17 @@ import javax.swing.JTextField;
  * @author Esteban Gerpe
  */
 public class Chat extends javax.swing.JFrame {
+    
+    private ClientToClient friend;
+    private ClientImpl self;
 
     /**
      * Creates new form JFrame_conv
      */
-    public Chat() {
+    public Chat(ClientToClient friend, ClientImpl self) {
         initComponents();
+        this.friend = friend;
+        this.self = self;
     }
 
     public JTextArea getjTextArea1() {
@@ -37,6 +45,9 @@ public class Chat extends javax.swing.JFrame {
     public void setjTextField1(JTextField jTextField1) {
         this.jTextField1 = jTextField1;
     }
+    
+    
+    
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -52,10 +63,21 @@ public class Chat extends javax.swing.JFrame {
         jTextField1 = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosing(java.awt.event.WindowEvent evt) {
+                formWindowClosing(evt);
+            }
+        });
 
         jTextArea1.setColumns(20);
         jTextArea1.setRows(5);
         jScrollPane1.setViewportView(jTextArea1);
+
+        jTextField1.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                jTextField1KeyReleased(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -81,41 +103,23 @@ public class Chat extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
+    private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
         try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(Chat.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(Chat.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(Chat.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(Chat.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            this.self.getFriends().remove(this.friend.getId());
+        } catch (RemoteException ex) {
+            Logger.getLogger(Chat.class.getName()).log(Level.SEVERE, null, ex);
         }
-        //</editor-fold>
-        //</editor-fold>
+    }//GEN-LAST:event_formWindowClosing
 
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new Chat().setVisible(true);
-            }
-        });
-    }
+    private void jTextField1KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField1KeyReleased
+        try {
+            this.friend.SendMessage((ClientToClient)this.self, this.jTextField1.getText());
+        } catch (RemoteException ex) {
+            Logger.getLogger(Chat.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        this.jTextArea1.append("Yo:  " + this.jTextField1.getText() + "\n");
+        this.jTextField1.setText("");
+    }//GEN-LAST:event_jTextField1KeyReleased
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JScrollPane jScrollPane1;

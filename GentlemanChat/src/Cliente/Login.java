@@ -22,9 +22,9 @@ import java.util.logging.Logger;
 public class Login extends javax.swing.JFrame {
     
     private ServerInterface server;
-    private ClientInterface client;
-    private String hostname;
-    private String port;
+    private ClientImpl client;
+    private final String hostname;
+    private final String port;
     private String url;
 
     /**
@@ -147,14 +147,16 @@ public class Login extends javax.swing.JFrame {
             Logger.getLogger(Login.class.getName()).log(Level.SEVERE, null, ex);
         }
         
-        HashMap <String,ClientInterface> friends = null;
         try {
             this.client = new ClientImpl(this.jTextField1.getText().toString(), this.jPasswordField1.getPassword().toString());
-            friends = this.server.login(this.client);
+            this.client.setFriends((HashMap<String, ClientToClient>)this.server.login(this.client));
         } catch (RemoteException ex) {
             Logger.getLogger(Login.class.getName()).log(Level.SEVERE, null, ex);
         }
-        new Aplication(friends);
+        Aplication aplication = new Aplication(this.client);
+        aplication.setLocationRelativeTo(null);
+        aplication.setResizable(false);
+        aplication.setVisible(true);
         this.setEnabled(false);
     }//GEN-LAST:event_jButton1ActionPerformed
 
