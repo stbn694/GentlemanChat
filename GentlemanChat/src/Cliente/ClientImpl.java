@@ -25,8 +25,8 @@ public class ClientImpl extends UnicastRemoteObject implements ClientInterface{
         return password;
     }
     
-    public void SendMessage(String text) throws RemoteException{
-        //Cubrir
+    public void SendMessage(String id, String text) throws RemoteException{
+        
     }
     
     public boolean SendPeticion(String idPeticion) throws RemoteException{
