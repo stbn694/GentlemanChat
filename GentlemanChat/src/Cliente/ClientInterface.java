@@ -11,5 +11,4 @@ public interface ClientInterface extends Remote {
     public boolean SendPeticion(String idPeticion) throws RemoteException;
     public void añadirAmigoConectado(ClientInterface c) throws RemoteException;
     public void eliminarAmigoConectado(ClientInterface c) throws RemoteException;
-    public ArrayList buscarContactos(String contacto) throws RemoteException;
 }

@@ -75,7 +75,7 @@ public class ServerImpl extends UnicastRemoteObject implements ServerInterface {
         }
     }
     
-    public ArrayList buscarContactos(String contacto){
+    public ArrayList buscarContactos(String contacto) throws RemoteException{
         ArrayList<String> contactos = this.database.buscarContactos(contacto);
         
         return contactos;
