@@ -152,11 +152,18 @@ public class Login extends javax.swing.JFrame {
             }
             
             this.client = new ClientImpl(this.jTextField1.getText(), new String(this.jPasswordField1.getPassword()));
+            /*
+            *   new String??
+            */
             
             HashMap<String, ClientToClient> friends = (HashMap<String, ClientToClient>) this.server.login(this.client);
             
             if (friends != null) {
                 this.client.setFriends((HashMap<String, ClientToClient>) this.server.login(this.client));
+                /*
+                *   En vez de chamar outra vez a login para obter o HashMap non sería máis lóxico utilizar
+                *   directamente o que está na variable friends?
+                */
 
                 Aplication aplication = new Aplication(this.client, this.server);
                 aplication.setLocationRelativeTo(null);

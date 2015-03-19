@@ -28,7 +28,7 @@ public class Aplication extends javax.swing.JFrame {
     
     public Aplication(ClientImpl client, ServerInterface server) {
         initComponents();
-        friendList=new DefaultListModel();
+        friendList = new DefaultListModel();
         jList1.setModel(friendList);
         
         this.server = server;
@@ -93,6 +93,11 @@ public class Aplication extends javax.swing.JFrame {
 
         jMenuItem2.setText("Buscar");
         jMenuItem2.setToolTipText("");
+        jMenuItem2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem2ActionPerformed(evt);
+            }
+        });
         jMenu2.add(jMenuItem2);
 
         jMenuBar1.add(jMenu2);
@@ -126,18 +131,24 @@ public class Aplication extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        String selectedFriend = this.jList1.getSelectedValue().toString();
-        System.out.println(this.client.getChats());
-        if (!this.client.getChats().containsKey(selectedFriend)) {
-            Chat chat = new Chat(this.client.getFriends().get(selectedFriend), this.client);
-            this.client.getChats().put(selectedFriend, chat);
-            chat.setLocationRelativeTo(null);
-            chat.setResizable(false);
-            chat.setVisible(true);
+        if (this.jList1.getSelectedValue() != null) {
+            String selectedFriend = this.jList1.getSelectedValue().toString();
+            System.out.println(this.client.getChats());
+            if (!this.client.getChats().containsKey(selectedFriend)) {
+                Chat chat = new Chat(this.client.getFriends().get(selectedFriend), this.client);
+                this.client.getChats().put(selectedFriend, chat);
+                chat.setLocationRelativeTo(null);
+                chat.setResizable(false);
+                chat.setVisible(true);
+            }
         }
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
+        /*
+        *   Eu deixaría a tarefa de mirar cales son os amigos do cliente ao servidor
+        *   e que esta función só chamara a logout
+        */
         try {
             ArrayList<String> friendsId = new ArrayList<String>();
             for(String usuario : this.client.getFriends().keySet()){
@@ -145,10 +156,24 @@ public class Aplication extends javax.swing.JFrame {
             }
             
             this.server.logout(this.client, friendsId);
+            //ENGADIDO
+            Login login = new Login();
+            login.setLocationRelativeTo(null);
+            login.setResizable(false);
+            login.setVisible(true);
+            this.setEnabled(false);
+            this.dispose();
         } catch (RemoteException ex) {
             Logger.getLogger(Aplication.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_jMenuItem1ActionPerformed
+
+    private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
+        Search search = new Search(this.client, this.server);
+        search.setLocationRelativeTo(null);
+        search.setResizable(false);
+        search.setVisible(true);
+    }//GEN-LAST:event_jMenuItem2ActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;

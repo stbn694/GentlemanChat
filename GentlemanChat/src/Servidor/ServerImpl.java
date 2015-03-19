@@ -52,6 +52,10 @@ public class ServerImpl extends UnicastRemoteObject implements ServerInterface {
             }
             
             return friends;
+            /*
+            *   Se no bucle anterior xa se chama a añadirAmigoConectado para cada amigo,
+            *   seguiría sendo necesario devolver o MashMap?
+            */
         }
         return null;
     }

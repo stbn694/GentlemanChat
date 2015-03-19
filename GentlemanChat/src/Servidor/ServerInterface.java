@@ -5,7 +5,6 @@
  */
 package Servidor;
 
-import Cliente.Chat;
 import Cliente.ClientInterface;
 import java.rmi.Remote;
 import java.rmi.RemoteException;

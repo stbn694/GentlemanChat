@@ -5,3 +5,6 @@
 /WebPage/dist/
 /GentlemanChat/dist/
 GentlemanChat/src/Cliente/ClientInterface.java
+*.class
+*.class
+*.properties

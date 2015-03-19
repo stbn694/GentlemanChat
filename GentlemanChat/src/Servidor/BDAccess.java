@@ -177,9 +177,9 @@ public class BDAccess {
             String query;
             ArrayList<String> contactos = new ArrayList<String>();
             
-            query = "SELECT id FROM Usuarios WHERE id LIKE '%?%' ";
+            query = "SELECT id FROM Usuarios WHERE id LIKE ? ";
             statement = this.connection.prepareStatement(query);
-            statement.setString(1, contacto);
+            statement.setString(1, "%" + contacto + "%");
             resultset = statement.executeQuery();
             
             while(resultset.next()){
