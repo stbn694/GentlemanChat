@@ -8,3 +8,5 @@ GentlemanChat/src/Cliente/ClientInterface.java
 *.class
 *.class
 *.properties
+*.class
+*.properties

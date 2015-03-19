@@ -28,6 +28,11 @@ public class Chat extends javax.swing.JFrame {
         initComponents();
         this.friend = friend;
         this.self = self;
+        try {
+            this.setTitle("Gentleman Chat - " + this.friend.getId());
+        } catch (RemoteException ex) {
+            Logger.getLogger(Chat.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     public JTextArea getjTextArea1() {
@@ -59,7 +64,7 @@ public class Chat extends javax.swing.JFrame {
         jTextArea1 = new javax.swing.JTextArea();
         jTextField1 = new javax.swing.JTextField();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowClosing(java.awt.event.WindowEvent evt) {
                 formWindowClosing(evt);
@@ -102,7 +107,7 @@ public class Chat extends javax.swing.JFrame {
 
     private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
         try {
-            this.self.getFriends().remove(this.friend.getId());
+            this.self.getChats().remove(this.friend.getId());
         } catch (RemoteException ex) {
             Logger.getLogger(Chat.class.getName()).log(Level.SEVERE, null, ex);
         }

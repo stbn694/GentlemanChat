@@ -1,6 +1,7 @@
 package Cliente;
 
 import Servidor.ServerInterface;
+import java.awt.event.KeyEvent;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.logging.Level;
@@ -53,6 +54,7 @@ public class Search extends javax.swing.JFrame {
         jButton2 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setTitle("Buscar");
         addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowClosing(java.awt.event.WindowEvent evt) {
                 formWindowClosing(evt);
@@ -141,7 +143,15 @@ public class Search extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jTextField1KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField1KeyReleased
-        this.jButton1.setEnabled(true);
+        if (this.jTextField1.getText().length() > 0) {
+            this.jButton1.setEnabled(true);
+            if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+                this.jButton1ActionPerformed(null);
+            }
+        }
+        else {
+            this.jButton1.setEnabled(false);
+        }
     }//GEN-LAST:event_jTextField1KeyReleased
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
@@ -153,6 +163,8 @@ public class Search extends javax.swing.JFrame {
                 Logger.getLogger(Search.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
+        this.setEnabled(false);
+        this.dispose();
     }//GEN-LAST:event_jButton2ActionPerformed
 
 

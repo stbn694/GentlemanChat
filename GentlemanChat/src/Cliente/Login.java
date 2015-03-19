@@ -1,6 +1,7 @@
 package Cliente;
 
 import Servidor.ServerInterface;
+import java.awt.event.KeyEvent;
 import java.net.MalformedURLException;
 import java.rmi.Naming;
 import java.rmi.NotBoundException;
@@ -55,11 +56,17 @@ public class Login extends javax.swing.JFrame {
         jButton1 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("Gentleman Chat");
 
         jPasswordField1.setToolTipText("");
         jPasswordField1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jPasswordField1ActionPerformed(evt);
+            }
+        });
+        jPasswordField1.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                jPasswordField1KeyReleased(evt);
             }
         });
 
@@ -69,6 +76,9 @@ public class Login extends javax.swing.JFrame {
             }
         });
         jTextField1.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                jTextField1KeyReleased(evt);
+            }
             public void keyTyped(java.awt.event.KeyEvent evt) {
                 jTextField1KeyTyped(evt);
             }
@@ -135,7 +145,6 @@ public class Login extends javax.swing.JFrame {
     }//GEN-LAST:event_jTextField1ActionPerformed
 
     private void jTextField1KeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField1KeyTyped
-        this.jButton1.setEnabled(true);
     }//GEN-LAST:event_jTextField1KeyTyped
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
@@ -159,7 +168,8 @@ public class Login extends javax.swing.JFrame {
             HashMap<String, ClientToClient> friends = (HashMap<String, ClientToClient>) this.server.login(this.client);
             
             if (friends != null) {
-                this.client.setFriends((HashMap<String, ClientToClient>) this.server.login(this.client));
+                this.client.setFriends(friends);
+                //this.client.setFriends((HashMap<String, ClientToClient>) this.server.login(this.client));
                 /*
                 *   En vez de chamar outra vez a login para obter o HashMap non sería máis lóxico utilizar
                 *   directamente o que está na variable friends?
@@ -180,6 +190,30 @@ public class Login extends javax.swing.JFrame {
     private void jPasswordField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jPasswordField1ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jPasswordField1ActionPerformed
+
+    private void jTextField1KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField1KeyReleased
+        if (this.jTextField1.getText().length() > 0 && this.jPasswordField1.getPassword().length > 0) {
+            this.jButton1.setEnabled(true);
+            if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+                this.jButton1ActionPerformed(null);
+            }
+        }
+        else {
+            this.jButton1.setEnabled(false);
+        }
+    }//GEN-LAST:event_jTextField1KeyReleased
+
+    private void jPasswordField1KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jPasswordField1KeyReleased
+        if (this.jPasswordField1.getPassword().length > 0 && this.jTextField1.getText().length() > 0) {
+            this.jButton1.setEnabled(true);
+            if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+                this.jButton1ActionPerformed(null);
+            }
+        }
+        else {
+            this.jButton1.setEnabled(false);
+        }
+    }//GEN-LAST:event_jPasswordField1KeyReleased
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
