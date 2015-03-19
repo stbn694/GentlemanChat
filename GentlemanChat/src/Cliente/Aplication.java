@@ -2,12 +2,15 @@ package Cliente;
 
 
 import Servidor.ServerInterface;
+import java.net.URL;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.DefaultListModel;
+import javax.swing.ImageIcon;
 import javax.swing.JLabel;
+import javax.swing.border.EmptyBorder;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -45,6 +48,13 @@ public class Aplication extends javax.swing.JFrame {
         else {
             this.jLabel3.setText(Integer.toString(this.client.getRequests().size()));
         }
+        
+        URL iconURL = getClass().getResource("/images/logo.png");
+        ImageIcon img = new ImageIcon(iconURL);
+        this.setIconImage(img.getImage());
+        
+        this.jList1.setFixedCellHeight(30);
+        this.jList1.setBorder(new EmptyBorder(10, 10, 10, 10));
     }
 
     public DefaultListModel getFriendList() {

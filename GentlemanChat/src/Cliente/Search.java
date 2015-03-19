@@ -2,11 +2,14 @@ package Cliente;
 
 import Servidor.ServerInterface;
 import java.awt.event.KeyEvent;
+import java.net.URL;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.DefaultListModel;
+import javax.swing.ImageIcon;
+import javax.swing.border.EmptyBorder;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -36,6 +39,14 @@ public class Search extends javax.swing.JFrame {
         this.self = self;
         this.server = server;
         this.jButton1.setEnabled(false);
+        this.jTextField1.requestFocus();
+        
+        URL iconURL = getClass().getResource("/images/logo.png");
+        ImageIcon img = new ImageIcon(iconURL);
+        this.setIconImage(img.getImage());
+        
+        this.jList1.setFixedCellHeight(30);
+        this.jList1.setBorder(new EmptyBorder(10, 10, 10, 10));
     }
 
     /**

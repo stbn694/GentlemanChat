@@ -1,9 +1,11 @@
 package Cliente;
 
 import java.awt.event.KeyEvent;
+import java.net.URL;
 import java.rmi.RemoteException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.ImageIcon;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.text.DefaultCaret;
@@ -36,6 +38,11 @@ public class Chat extends javax.swing.JFrame {
         }
         DefaultCaret caret = (DefaultCaret)jTextArea1.getCaret();
         caret.setUpdatePolicy(DefaultCaret.ALWAYS_UPDATE);
+        this.jTextField1.requestFocus();
+        
+        URL iconURL = getClass().getResource("/images/logo.png");
+        ImageIcon img = new ImageIcon(iconURL);
+        this.setIconImage(img.getImage());
     }
 
     public JTextArea getjTextArea1() {
@@ -82,6 +89,7 @@ public class Chat extends javax.swing.JFrame {
         jTextArea1.setMargin(new java.awt.Insets(10, 10, 10, 10));
         jScrollPane1.setViewportView(jTextArea1);
 
+        jTextField1.setMargin(new java.awt.Insets(10, 10, 10, 10));
         jTextField1.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
                 jTextField1KeyReleased(evt);
@@ -96,16 +104,16 @@ public class Chat extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 580, Short.MAX_VALUE)
-                    .addComponent(jTextField1))
+                    .addComponent(jTextField1, javax.swing.GroupLayout.Alignment.TRAILING))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 345, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 336, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jTextField1, javax.swing.GroupLayout.DEFAULT_SIZE, 27, Short.MAX_VALUE)
+                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
 
