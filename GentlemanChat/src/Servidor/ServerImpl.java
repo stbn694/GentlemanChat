@@ -28,17 +28,6 @@ public class ServerImpl extends UnicastRemoteObject implements ServerInterface {
         if(this.database.comprobarUsuario(c.getId(),c.getPassword())){
             this.connectUsers.put(c.getId(), c);
             
-            ArrayList<String> peticiones = this.database.peticionesAmistad(c.getId());
-            
-            if(peticiones != null){
-                for(String idPeticion : peticiones){
-                    if(c.SendPeticion(idPeticion)){
-                        this.database.añadirAmigo(c.getId(), idPeticion);
-                    }
-                }
-            }
-            
-            
             HashMap <String,ClientInterface> friends = new HashMap <String,ClientInterface>();
             ArrayList<String> amigos = this.database.listaAmigos(c.getId());
             
@@ -56,6 +45,11 @@ public class ServerImpl extends UnicastRemoteObject implements ServerInterface {
         return null;
     }
     
+    public ArrayList devolverPeticiones(ClientInterface c) throws RemoteException {
+        ArrayList<String> peticiones = this.database.peticionesAmistad(c.getId());
+        return peticiones;
+    }
+    
     public void logout(ClientInterface c, ArrayList<String> friends) throws RemoteException{
         this.connectUsers.remove(c.getId());
         
@@ -66,21 +60,39 @@ public class ServerImpl extends UnicastRemoteObject implements ServerInterface {
     
     public void peticionAmistad(ClientInterface c, String idPeticion) throws RemoteException{
         if(this.connectUsers.containsKey(idPeticion)){
-            if(c.SendPeticion(idPeticion)){
-                this.database.añadirAmigo(c.getId(), idPeticion);
-                
-                this.connectUsers.get(idPeticion).añadirAmigoConectado(c);
-                c.añadirAmigoConectado(this.connectUsers.get(c.getId()));
-            }
-        }
-        else{
-            this.database.añadirPeticion(c.getId(), idPeticion);
-        }
+            c.SendPeticion(idPeticion);
+        }    
+        this.database.añadirPeticion(c.getId(), idPeticion);
     }
     
     public ArrayList buscarContactos(String contacto) throws RemoteException{
         ArrayList<String> contactos = this.database.buscarContactos(contacto);
         
         return contactos;
+    }
+    
+    public boolean esAmigo(ClientInterface c, String contacto) throws RemoteException {
+        return this.database.esAmigo(c.getId(), contacto);
+    }
+    
+    public boolean esPeticion(ClientInterface c, String contacto) throws RemoteException {
+        return this.database.esPeticion(c.getId(), contacto);
+    }
+    
+    public void añadirAmigo(ClientInterface c, String nAmigo) throws RemoteException {
+        if (this.database.esPeticion(nAmigo, c.getId())) {
+            this.database.añadirAmigo(c.getId(), nAmigo);
+            if(this.connectUsers.containsKey(nAmigo)){
+                c.añadirAmigoConectado(this.connectUsers.get(nAmigo));
+                this.connectUsers.get(nAmigo).añadirAmigoConectado(c);
+            }
+            this.eliminarPeticion(c, nAmigo);
+        }
+    }
+    
+    public void eliminarPeticion(ClientInterface c, String aEliminar) throws RemoteException {
+        if (this.database.esPeticion(aEliminar, c.getId())) {
+            this.database.eliminarPeticion(aEliminar, c.getId());
+        }
     }
 }

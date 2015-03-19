@@ -104,12 +104,7 @@ public class BDAccess {
                 peticiones.add(resultset.getString("idUsuario"));
             }
             
-            if(!peticiones.isEmpty()){
-                return peticiones;
-            }
-            else{
-                return null;
-            }
+            return peticiones;
             
         } catch (SQLException ex) {
             Logger.getLogger(BDAccess.class.getName()).log(Level.SEVERE, null, ex);
@@ -197,5 +192,49 @@ public class BDAccess {
             Logger.getLogger(BDAccess.class.getName()).log(Level.SEVERE, null, ex);
         }
         return null;
+    }
+    
+    public boolean esAmigo(String id, String contacto){
+        try {
+            ResultSet resultset = null;
+            PreparedStatement statement = null;
+            String query;
+            
+            query = "SELECT idAmigo FROM Amigos where idUsuario=? and idAmigo=?";
+            statement = this.connection.prepareStatement(query);
+            statement.setString(1, id);
+            statement.setString(2, contacto);
+            resultset = statement.executeQuery();
+            
+            if(resultset.next()){
+                return true;
+            }
+            return false;
+        } catch (SQLException ex) {
+            Logger.getLogger(BDAccess.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return false;
+    }
+    
+    public boolean esPeticion(String id, String contacto){
+        try {
+            ResultSet resultset = null;
+            PreparedStatement statement = null;
+            String query;
+            
+            query = "SELECT idPeticion FROM Peticions where idUsuario=? and idPeticion=?";
+            statement = this.connection.prepareStatement(query);
+            statement.setString(1, id);
+            statement.setString(2, contacto);
+            resultset = statement.executeQuery();
+            
+            if(resultset.next()){
+                return true;
+            }
+            return false;
+        } catch (SQLException ex) {
+            Logger.getLogger(BDAccess.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return false;
     }
 }

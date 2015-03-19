@@ -132,14 +132,15 @@ public class Search extends javax.swing.JFrame {
         
         if (results != null) {
             for (String coincidence : results) {
-                if (coincidence != this.self.getId() && !this.self.getFriends().containsKey(coincidence)) {     // Non acaba de funcionar
-                    this.resultsList.addElement(coincidence);
+                try {
+                    if (!coincidence.equals(this.self.getId()) && !this.server.esAmigo(this.self, coincidence) && !this.server.esPeticion(this.self, coincidence)) {     // Non acaba de funcionar
+                        this.resultsList.addElement(coincidence);
+                    }
+                } catch (RemoteException ex) {
+                    Logger.getLogger(Search.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
         }
-        
-        this.jTextField1.setText("");
-        this.jButton1.setEnabled(false);
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jTextField1KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField1KeyReleased

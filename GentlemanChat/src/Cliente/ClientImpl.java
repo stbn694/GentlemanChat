@@ -2,6 +2,7 @@ package Cliente;
 
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
+import java.util.ArrayList;
 import java.util.HashMap;
 
 public class ClientImpl extends UnicastRemoteObject implements ClientInterface, ClientToClient{
@@ -10,6 +11,7 @@ public class ClientImpl extends UnicastRemoteObject implements ClientInterface, 
     private String password;
     private HashMap<String,ClientToClient> friends;
     private HashMap<String,Chat> chats;
+    private ArrayList<String> requests;
     private Aplication aplication;
     
     public ClientImpl(String id, String password) throws RemoteException{
@@ -42,8 +44,19 @@ public class ClientImpl extends UnicastRemoteObject implements ClientInterface, 
     public void setAplication(Aplication aplication) {
         this.aplication = aplication;
     }
-    
-    
+
+    public void setRequests(ArrayList<String> requests) {
+        this.requests = requests;
+    }
+
+    public ArrayList<String> getRequests() {
+        return requests;
+    }
+
+    public Aplication getAplication() {
+        return aplication;
+    }
+        
 
     public void SendMessage(ClientToClient friend, String text) throws RemoteException{
         if (!this.chats.containsKey(friend.getId())) {
@@ -56,9 +69,11 @@ public class ClientImpl extends UnicastRemoteObject implements ClientInterface, 
         this.chats.get(friend.getId()).getjTextArea1().append(friend.getId() + ":  " + text + "\n");
     }
     
-    public boolean SendPeticion(String idPeticion) throws RemoteException{
-        //Aqui o servidor lanzaria o panel no cliente preguntando se acepta a peticion
-        return false;
+    public void SendPeticion(String idPeticion) throws RemoteException{
+        this.requests.add(idPeticion);
+        this.aplication.getjLabel2().setVisible(true);
+        this.aplication.getjLabel3().setText(Integer.toString(this.requests.size()));
+        this.aplication.getjLabel3().setVisible(true);
     }
     
     public void añadirAmigoConectado(ClientInterface c) throws RemoteException{

@@ -10,3 +10,6 @@ GentlemanChat/src/Cliente/ClientInterface.java
 *.properties
 *.class
 *.properties
+*.properties
+GentlemanChat/build/built-jar.properties
+*.properties
