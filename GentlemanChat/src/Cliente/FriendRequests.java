@@ -146,6 +146,7 @@ public class FriendRequests extends javax.swing.JFrame {
                 } catch (RemoteException ex) {
                     Logger.getLogger(FriendRequests.class.getName()).log(Level.SEVERE, null, ex);
                 }
+                this.self.getRequests().remove(ignore);
             }
             requests = new DefaultListModel();
             this.jList1.setModel(requests);

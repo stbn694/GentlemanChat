@@ -60,7 +60,7 @@ public class ServerImpl extends UnicastRemoteObject implements ServerInterface {
     
     public void peticionAmistad(ClientInterface c, String idPeticion) throws RemoteException{
         if(this.connectUsers.containsKey(idPeticion)){
-            c.SendPeticion(idPeticion);
+            this.connectUsers.get(idPeticion).SendPeticion(c.getId());
         }    
         this.database.añadirPeticion(c.getId(), idPeticion);
     }
