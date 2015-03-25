@@ -46,11 +46,14 @@ public class ServerImpl extends UnicastRemoteObject implements ServerInterface {
     }
     
     public ArrayList devolverPeticiones(ClientInterface c) throws RemoteException {
-        ArrayList<String> peticiones = this.database.peticionesAmistad(c.getId());
-        return peticiones;
+        if (this.connectUsers.containsKey(c.getId())) {
+            ArrayList<String> peticiones = this.database.peticionesAmistad(c.getId());
+            return peticiones;
+        }
+        return null;
     }
     
-    public void logout(ClientInterface c, ArrayList<String> friends) throws RemoteException{
+    public void logout(ClientInterface c, ArrayList<String> friends) throws RemoteException {
         this.connectUsers.remove(c.getId());
         
         for(String usuario : friends){
@@ -58,41 +61,53 @@ public class ServerImpl extends UnicastRemoteObject implements ServerInterface {
         }
     }
     
-    public void peticionAmistad(ClientInterface c, String idPeticion) throws RemoteException{
-        if(this.connectUsers.containsKey(idPeticion)){
-            this.connectUsers.get(idPeticion).SendPeticion(c.getId());
-        }    
-        this.database.añadirPeticion(c.getId(), idPeticion);
+    public void peticionAmistad(ClientInterface c, String idPeticion) throws RemoteException {
+        if (this.connectUsers.containsKey(c.getId())) {
+            if(this.connectUsers.containsKey(idPeticion)){
+                this.connectUsers.get(idPeticion).SendPeticion(c.getId());
+            }    
+            this.database.añadirPeticion(c.getId(), idPeticion);
+        }
     }
     
-    public ArrayList buscarContactos(String contacto) throws RemoteException{
+    public ArrayList buscarContactos(String contacto) throws RemoteException {
         ArrayList<String> contactos = this.database.buscarContactos(contacto);
         
         return contactos;
     }
     
     public boolean esAmigo(ClientInterface c, String contacto) throws RemoteException {
-        return this.database.esAmigo(c.getId(), contacto);
+        if (this.connectUsers.containsKey(c.getId())) {
+            return this.database.esAmigo(c.getId(), contacto);
+        }
+        return false;
     }
     
     public boolean esPeticion(ClientInterface c, String contacto) throws RemoteException {
-        return this.database.esPeticion(c.getId(), contacto);
+        if (this.connectUsers.containsKey(c.getId())) {
+            return this.database.esPeticion(c.getId(), contacto);
+        }
+        return false;
     }
     
     public void añadirAmigo(ClientInterface c, String nAmigo) throws RemoteException {
-        if (this.database.esPeticion(nAmigo, c.getId())) {
-            this.database.añadirAmigo(c.getId(), nAmigo);
-            if(this.connectUsers.containsKey(nAmigo)){
-                c.añadirAmigoConectado(this.connectUsers.get(nAmigo));
-                this.connectUsers.get(nAmigo).añadirAmigoConectado(c);
+        if (this.connectUsers.containsKey(c.getId())) {
+            if (this.database.esPeticion(nAmigo, c.getId())) {
+                this.database.añadirAmigo(c.getId(), nAmigo);
+                if(this.connectUsers.containsKey(nAmigo)){
+                    c.añadirAmigoConectado(this.connectUsers.get(nAmigo));
+                    this.connectUsers.get(nAmigo).añadirAmigoConectado(c);
+                }
+                this.eliminarPeticion(c, nAmigo);
             }
-            this.eliminarPeticion(c, nAmigo);
         }
     }
     
     public void eliminarPeticion(ClientInterface c, String aEliminar) throws RemoteException {
-        if (this.database.esPeticion(aEliminar, c.getId())) {
-            this.database.eliminarPeticion(aEliminar, c.getId());
+        if (this.connectUsers.containsKey(c.getId())) {
+            if (this.database.esPeticion(aEliminar, c.getId())) {
+                this.database.eliminarPeticion(aEliminar, c.getId());
+            }
         }
     }
 }

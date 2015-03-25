@@ -4,6 +4,8 @@ import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class ClientImpl extends UnicastRemoteObject implements ClientInterface, ClientToClient{
     private String id;
@@ -66,7 +68,26 @@ public class ClientImpl extends UnicastRemoteObject implements ClientInterface, 
             chat.setResizable(false);
             chat.setVisible(true);
         }
-        this.chats.get(friend.getId()).getjTextArea1().append(friend.getId() + ":  " + text + "\n");
+        if (text.equals("zumbido")) {
+            Integer x_inicial = this.chats.get(friend.getId()).getX();
+            Integer y_inicial = this.chats.get(friend.getId()).getY();
+            Integer width_inicial = this.chats.get(friend.getId()).getWidth();
+            Integer heigth_inicial = this.chats.get(friend.getId()).getHeight();
+            for(Integer i = 0; i < 20; i++) {
+                try {
+                    this.chats.get(friend.getId()).setBounds(x_inicial + 10, y_inicial + 10, width_inicial, heigth_inicial);
+                    Thread.sleep(10);
+                    this.chats.get(friend.getId()).setBounds(x_inicial - 10, y_inicial - 10, width_inicial, heigth_inicial);
+                    Thread.sleep(10);
+                } catch (InterruptedException ex) {
+                    Logger.getLogger(ClientImpl.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+            this.chats.get(friend.getId()).setBounds(x_inicial, y_inicial, width_inicial, heigth_inicial);
+        }
+        else {
+            this.chats.get(friend.getId()).getjTextArea1().append(friend.getId() + ":  " + text + "\n");
+        }
     }
     
     public void SendPeticion(String idPeticion) throws RemoteException{

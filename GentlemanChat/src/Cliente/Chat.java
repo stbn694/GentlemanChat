@@ -135,7 +135,9 @@ public class Chat extends javax.swing.JFrame {
             } catch (RemoteException ex) {
                 Logger.getLogger(Chat.class.getName()).log(Level.SEVERE, null, ex);
             }
-            this.jTextArea1.append("Yo:  " + this.jTextField1.getText() + "\n");
+            if (!this.jTextField1.getText().equals("zumbido")) {
+                this.jTextArea1.append("Yo:  " + this.jTextField1.getText() + "\n");
+            }
             this.jTextField1.setText("");
         }
     }//GEN-LAST:event_jTextField1KeyReleased
